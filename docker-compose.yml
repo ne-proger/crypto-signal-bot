@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  bot:
+    build: ./bot
+    container_name: crypto-signal-bot
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - bot_state:/state  # для SQLite (антидубли, лог)
+    # если хочешь локальное время хоста:
+    # environment:
+    #   - TZ=Europe/Madrid
+
+volumes:
+  bot_state:

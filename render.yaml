@@ -1,0 +1,55 @@
+services:
+  - type: worker
+    runtime: python
+    name: crypto-signal-bot
+    region: frankfurt
+    plan: starter
+
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+
+    startCommand: |
+      python -m bot.app.main
+
+    disk:
+      name: bot-state
+      mountPath: /state
+      sizeGB: 1
+
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHANNEL_ID
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: EXCHANGE_ID
+        value: binance
+      - key: SYMBOLS
+        value: BTC/USDT,ETH/USDT
+      - key: TRIPLE_TFS
+        value: 1w,1d,4h
+      - key: CANDLES_LIMIT
+        value: "300"
+      - key: MA_WINDOW
+        value: "50"
+      - key: MACD_FAST
+        value: "12"
+      - key: MACD_SLOW
+        value: "26"
+      - key: MACD_SIGNAL
+        value: "9"
+      - key: SCHEDULE_SECONDS
+        value: "900"
+      - key: REPORT_LOCALE
+        value: ru
+      - key: BOT_STATE_DIR
+        value: /state
+      - key: BUY_COOLDOWN_HOURS
+        value: "6"
+      - key: LITERATURE_URLS
+        value: https://storage.googleapis.com/radio-valensia-news-uploads/Alder/Yelder_A._Treyiding_S_Doktorom_Yeld.a4.pdf
